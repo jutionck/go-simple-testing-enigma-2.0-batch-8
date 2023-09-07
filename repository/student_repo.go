@@ -24,15 +24,12 @@ func (s *studentRepository) Create(payload domain.Student) error {
 }
 
 func (s *studentRepository) Get(id int) (domain.Student, error) {
-	var student domain.Student
 	for _, v := range s.db {
-		if v.Id != id {
-			return domain.Student{}, fmt.Errorf("student with ID %v not found", id)
+		if v.Id == id {
+			return v, nil
 		}
-
-		student = v
 	}
-	return student, nil
+	return domain.Student{}, fmt.Errorf("student with ID %v not found", id)
 }
 
 func NewStudentRepository() StudentRepository {
